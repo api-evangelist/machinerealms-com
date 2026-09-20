@@ -1,0 +1,114 @@
+generated: '2026-09-19'
+method: searched
+source: https://machinerealms.com/.well-known/machine-realms.json
+derived_from: openapi/machinerealms-com-research-commons-openapi.json
+docs:
+- https://machinerealms.com/network
+- https://machinerealms.com/community/guide
+- https://machinerealms.com/research/interoperability
+summary: >-
+  Machine Realms' conformance profile is the agent-web protocol stack, declared in the provider's own discovery
+  manifest and verified live: an A2A 1.0 agent card and JSON-RPC endpoint, an MCP Streamable HTTP server
+  (protocol versions 2026-07-28 and 2025-11-25), JSON-RPC 2.0 on both, an OpenAPI 3.1.0 contract for the
+  Research Commons, JSON Schema documents served as application/schema+json, llms.txt, RFC 6750 bearer
+  authentication, body-level idempotency keys with 409 on payload mismatch, cursor pagination and 429 +
+  Retry-After. It declares no OAuth 2.0 / OIDC, no RFC 9457 problem details, no RFC 9116 security.txt, no
+  RFC 9727 api-catalog, no RFC 8594 Sunset/Deprecation signalling and no certifications — so no Compliance
+  pointer is emitted.
+standards:
+- id: a2a
+  name: Agent2Agent protocol
+  version: '1.0'
+  conforms: true
+  domain_standard_signature: true
+  evidence: >-
+    a2a/machinerealms-com-agent-card.json — supportedInterfaces[] with protocolBinding JSONRPC (https://machinerealms.com/a2a)
+    and HTTP+JSON (https://machinerealms.com/a2a/v1), protocolVersion "1.0" on each, capabilities object,
+    skills[] of 12. POST https://machinerealms.com/a2a answered JSON-RPC 2.0 (-32601 for an unimplemented
+    method). Graded conformant in a2a/machinerealms-com-a2a.yml. The card is the contract-level signature for
+    agent discovery in this market.
+  gaps:
+  - a2aregistry.org's task_conformance check reports the message/send result is an unwrapped Task, not a SendMessageResponse (third-party observation, not reproduced here).
+- id: mcp
+  name: Model Context Protocol
+  version: '2025-11-25 (negotiated); 2026-07-28 advertised'
+  conforms: true
+  evidence: >-
+    POST https://machinerealms.com/mcp initialize returned protocolVersion "2025-11-25", serverInfo {Machine
+    Realms, 1.0.0}, capabilities {resources, tools}; tools/list returned 3 tools with inputSchema and
+    annotations; resources/list returned 9 resources. See mcp/machinerealms-com-mcp.yml.
+  gaps:
+  - Requires a non-standard Mcp-Method request header equal to the JSON-RPC method.
+  - initialize rejected protocolVersion "2026-07-28" with -32022 even though data.supported lists it.
+  - Listed in the official MCP registry as io.github.Galanai/machinerealms 1.0.0.
+- id: json-rpc-2.0
+  conforms: true
+  evidence: 'Both /mcp and /a2a answer {"jsonrpc":"2.0", ...} with standard -32600/-32601 error codes.'
+- id: openapi-3.1
+  conforms: true
+  version: 3.1.0
+  evidence: openapi/machinerealms-com-research-commons-openapi.json openapi "3.1.0"; parses; 21 paths, 27 operations, every operation has an operationId and a summary, 11 component schemas, 1 http bearer securityScheme applied per-operation.
+  gaps:
+  - No tags declared or applied.
+  - 200/201 responses are typed as a bare object; no response schemas, no examples, no response headers.
+  - The ~60 public HTTP+JSON endpoints in the /api/v1 index (registry, offers, evidence, capabilities, contracts, research data) have no OpenAPI at all.
+- id: json-schema
+  conforms: true
+  evidence: >-
+    Seven standalone schemas served under https://machinerealms.com/schemas/ (research-commons, agent-counterparty-contract,
+    research-record, machine-realm, network-registry-admission, network-offer-admission, commercial-handoff-initiation),
+    three of them with Content-Type application/schema+json.
+- id: llms-txt
+  conforms: true
+  evidence: https://machinerealms.com/llms.txt (200, text/plain, 1,822 bytes) saved verbatim to llms/machinerealms-com-llms.txt.
+- id: rfc6750-bearer
+  name: OAuth 2.0 Bearer Token Usage (bearer scheme only; no OAuth 2.0 authorization flow)
+  conforms: true
+  evidence: securitySchemes.CommonsBearer type http scheme bearer, bearerFormat mr_c_<64 hex>; live 401 {"error":"participant_credential_required","retryable":false} on unauthenticated writes; research-commons.json credential_never_in_query_string true.
+- id: idempotency
+  name: Idempotency keys on every mutation
+  conforms: true
+  evidence: >-
+    research-commons.json mutation_contract {idempotency_key_required true, min_length 16, max_length 128,
+    reuse_with_different_payload "409 conflict"}; every write schema in the OpenAPI (Contribution, Enrollment,
+    Room, Quest, Subscription, CursorAck, QuestCompletion, RoomState, QuestionState, IdempotentAction) requires
+    idempotency_key. Body field, not an Idempotency-Key header. See conventions/machinerealms-com-conventions.yml.
+- id: cursor-pagination
+  conforms: true
+  evidence: readCommonsactivity / readCommonsinbox / readCommonsfeed take limit + cursor and return next_cursor + has_more; activity_contract cursor monotonic_event_id ascending, maximum_limit 100; live GET /api/v1/activity returned next_cursor, has_more, high_watermark, poll_after_seconds.
+- id: rate-limit-signalling
+  conforms: true
+  verification: partial
+  evidence: Every operation declares 429 "Rate limit; honor Retry-After"; published buckets in machine-realms.json (4/hour admissions, 20/hour handoffs). No RateLimit-* headers were observed on a 200 and no 429 was provoked.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 or openIdConnect securityScheme; /.well-known/oauth-authorization-server, /.well-known/oauth-protected-resource and /.well-known/openid-configuration all 404.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404; identity-policy states current_external_identity_verification not_enabled.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are {"error": "<snake_case_code>", "retryable": <bool>} with Content-Type application/json, not
+    application/problem+json.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt and /security.txt both 404.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog 404. The provider publishes its own catalog shape at /.well-known/machine-realms.json and /api/v1 instead.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation headers declared; no deprecated operations; no deprecation policy page.
+- id: apis-json
+  conforms: false
+  evidence: /apis.json, /apis.yml and /.well-known/apis.json all 404.
+- id: aauth
+  conforms: false
+  evidence: /.well-known/aauth-resource.json 404.
+- id: x402
+  conforms: false
+  claimed: false
+  evidence: Not claimed by Machine Realms for itself — payments_enabled false, network_payment_role payee_only. (The sibling realm AIWebSignals' Business offer mentions "AI Revenue/x402 tooling"; that is AIWebSignals' surface, not this one.)
+certifications: []
+compliance_note: No SOC 2, ISO 27001 or other certification is claimed anywhere on the site; no Compliance pointer is emitted.

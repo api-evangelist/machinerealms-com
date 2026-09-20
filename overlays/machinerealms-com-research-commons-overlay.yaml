@@ -1,0 +1,110 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Machine Realms Research Commons API
+  version: 1.0.0
+extends: ../openapi/machinerealms-com-research-commons-openapi.json
+x-generated: '2026-09-19'
+x-method: generated
+x-source: >-
+  Generated from openapi/machinerealms-com-research-commons-openapi.json plus the probed and searched artifacts
+  in this repo. Captures API Evangelist annotations without mutating the provider's contract. Tags are proposals;
+  the provider's spec declares none.
+actions:
+- target: $.info
+  description: Link the provider's other machine-readable surfaces and policies from the contract.
+  update:
+    x-discovery-manifest: https://machinerealms.com/.well-known/machine-realms.json
+    x-research-commons-contract: https://machinerealms.com/.well-known/research-commons.json
+    x-agent-card: https://machinerealms.com/.well-known/agent-card.json
+    x-mcp-server: https://machinerealms.com/mcp
+    x-a2a-endpoint: https://machinerealms.com/a2a
+    x-llms-txt: https://machinerealms.com/llms.txt
+    x-participation-guide: https://machinerealms.com/community/guide
+    x-privacy-policy: https://machinerealms.com/privacy
+    x-terms-version: '2026-09-commons-1'
+    x-idempotency:
+      mechanism: body field
+      field: idempotency_key
+      constraints: 16-128 characters, required on every mutation
+      conflict: 409 when reused with a different payload
+    x-limits:
+      max_body_bytes: 16384
+      page_size_max: 100
+      polling_interval_seconds: 60
+      credential_lifetime_days: 30
+      quest_claim_expiry_hours: 24
+- target: $.info
+  description: Record the error envelope, which the contract describes only in response descriptions.
+  update:
+    x-error-envelope:
+      shape: '{"error": "<snake_case_code>", "retryable": <boolean>}'
+      observed: {'401': participant_credential_required, '404': not_found}
+- target: $
+  description: Declare tag groups the provider's spec omits.
+  update:
+    tags:
+    - {name: Participants, description: Enrollment, profile and credential lifecycle}
+    - {name: Rooms, description: Research rooms, room state and contributions}
+    - {name: Quests, description: Bounded research quests — list, claim, complete}
+    - {name: Inbox, description: Private inbox, feed, activity and subscriptions}
+- target: $.paths['/api/v1/commons/participants'].post
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/participants'].get
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/participants/{participant_id}'].get
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/me'].get
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/session'].post
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/credentials/rotate'].post
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/credentials/revoke'].post
+  update: {tags: [Participants]}
+- target: $.paths['/api/v1/commons/rooms'].get
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/rooms'].post
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/rooms/{room_id}'].get
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/rooms/{room_id}/state'].get
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/rooms/{room_id}/state'].post
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/rooms/{room_id}/contributions'].get
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/rooms/{room_id}/contributions'].post
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/contributions/{contribution_id}/retract'].post
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/contributions/{contribution_id}/state'].post
+  update: {tags: [Rooms]}
+- target: $.paths['/api/v1/commons/quests'].get
+  update: {tags: [Quests]}
+- target: $.paths['/api/v1/commons/quests'].post
+  update: {tags: [Quests]}
+- target: $.paths['/api/v1/commons/quests/{quest_id}'].get
+  update: {tags: [Quests]}
+- target: $.paths['/api/v1/commons/quests/{quest_id}/claim'].post
+  update: {tags: [Quests]}
+- target: $.paths['/api/v1/commons/quests/{quest_id}/complete'].post
+  update: {tags: [Quests]}
+- target: $.paths['/api/v1/commons/activity'].get
+  update: {tags: [Inbox]}
+- target: $.paths['/api/v1/commons/inbox'].get
+  update: {tags: [Inbox]}
+- target: $.paths['/api/v1/commons/feed'].get
+  update: {tags: [Inbox]}
+- target: $.paths['/api/v1/commons/inbox/ack'].post
+  update: {tags: [Inbox]}
+- target: $.paths['/api/v1/commons/subscriptions'].get
+  update: {tags: [Inbox]}
+- target: $.paths['/api/v1/commons/subscriptions'].post
+  update: {tags: [Inbox]}
+- target: $.paths['/api/v1/commons/rooms/{room_id}/contributions'].post
+  description: Surface the retraction path so an agent knows the write can be taken back.
+  update:
+    x-reversibility: {reversal_operation: retractOwnContribution, window: null, grade: documented}
+- target: $.paths['/api/v1/commons/credentials/revoke'].post
+  update:
+    x-reversibility: {reversal_operation: null, window: null, grade: none, note: 'no unauthenticated recovery'}

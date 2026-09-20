@@ -1,0 +1,164 @@
+generated: '2026-09-19'
+method: probed
+source: https://machinerealms.com/.well-known/agent-card.json
+card:
+  file: a2a/machinerealms-com-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: machinerealms.com
+  note: >-
+    Served from the apex host, which is also the OpenAPI servers[] host, the MCP host and both A2A endpoints —
+    Machine Realms runs everything on one Cloudflare-fronted origin. The legacy /.well-known/agent.json returns
+    the site's real JSON 404 ({"error":"not_found"}, 21 bytes), not an SPA shell, and a negative-control path
+    (/.well-known/machinerealms-negative-control-4b7e19a2.json) also 404s, so the 200 on agent-card.json is a
+    served document and not a catch-all. Ownership is not in question: provider.organization is "Machine Realms"
+    with provider.url https://machinerealms.com, the card is named as the a2a.agent_card of the provider's own
+    discovery manifest at /.well-known/machine-realms.json, and the /api/v1 index lists it as a2a_agent_card.
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://machinerealms.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  body_bytes: 6717
+  body_parses_as: >-
+    JSON object with AgentCard shape (name, description, supportedInterfaces, provider, version, documentationUrl,
+    capabilities, defaultInputModes, defaultOutputModes, skills) plus two provider extensions (research_commons,
+    brand)
+  corroborating_probes:
+  - url: https://machinerealms.com/.well-known/agent.json
+    http_status: 404
+  - url: https://www.machinerealms.com/.well-known/agent-card.json
+    http_status: 200
+    note: The www host serves the same document directly rather than redirecting.
+  - url: https://machinerealms.com/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"agent/getAuthenticatedExtendedCard"}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":1,"error":{"code":-32601,"message":"Method not found"}}'
+    note: A live JSON-RPC 2.0 responder on the declared JSONRPC interface; the extended card is not implemented, consistent with capabilities.extendedAgentCard false. No message was sent.
+  - url: https://machinerealms.com/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tasks/get","params":{"id":"apievangelist-nonexistent-probe"}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":1,"error":{"code":-32001,"message":"task_not_found","data":{"error":"task_not_found"}}}'
+    note: A real A2A JSON-RPC responder — TaskNotFoundError (-32001) is the A2A-defined code for an unknown task id. No message was sent.
+  - url: https://machinerealms.com/a2a
+    http_status: 404
+    note: GET on the JSON-RPC endpoint returns the site's generic JSON 404; the endpoint is POST-only.
+  - url: https://machinerealms.com/a2a/v1/card
+    http_status: 404
+    note: The HTTP+JSON binding does not serve a card at /v1/card; discovery is via /.well-known/agent-card.json only.
+  - url: https://machinerealms.com/.well-known/machine-realms.json
+    http_status: 200
+    note: The provider's own discovery manifest declares protocols.a2a status active_bounded, endpoint https://machinerealms.com/a2a (JSONRPC), alternate https://machinerealms.com/a2a/v1 (HTTP+JSON), protocol_version "1.0", agent_card = this URL.
+  - url: https://a2aregistry.org/api/agents/58534b7a-879d-46eb-968a-0c0bcb236086
+    http_status: 200
+    note: >-
+      The card was first seen on a2aregistry.org, which is how this provider entered the harvest backlog. The
+      registry record (created 2026-09-19) reports conformance true, 100% uptime and is_healthy true, but its
+      task_conformance check (category PARSE) FAILED with the maintainer note that the message/send result is an
+      unwrapped Task rather than an A2A 1.0 SendMessageResponse. The registry listing was the lead; the card above
+      was fetched directly from the provider's host.
+agent_card:
+  name: MachineRealms
+  description: >-
+    A machine-native research commons and bounded network participant for discovering realms, evidence, research
+    rooms, open quests, and offers while keeping discovery separate from authority.
+  version: network-alpha-2
+  protocol_version: '1.0'
+  supported_interfaces:
+  - {url: https://machinerealms.com/a2a, protocolBinding: JSONRPC, protocolVersion: '1.0'}
+  - {url: https://machinerealms.com/a2a/v1, protocolBinding: HTTP+JSON, protocolVersion: '1.0'}
+  provider:
+    organization: Machine Realms
+    url: https://machinerealms.com
+  documentation_url: https://machinerealms.com/network
+  capabilities:
+    streaming: false
+    push_notifications: false
+    extended_agent_card: false
+  default_input_modes: [text/plain, application/json]
+  default_output_modes: [text/plain, application/json]
+  security_schemes: null
+  security: null
+  icon_url: null
+  skill_count: 12
+  skills:
+  - {id: network-registry, name: Network registry, tags: [registry, discovery, services]}
+  - {id: realm-evidence, name: Realm evidence, tags: [evidence, observability, realms]}
+  - {id: machine-offers, name: Machine-readable offers, tags: [offers, commerce, handoff]}
+  - {id: authority-boundary, name: Authority boundary, tags: [authority, safety, policy]}
+  - {id: intent-match, name: Intent match, tags: [intent, routing, capabilities, offers, discovery]}
+  - {id: capability-vocabulary, name: Capability vocabulary, tags: [capabilities, outputs, vocabulary, discovery, interoperability]}
+  - {id: counterparty-contract, name: Agent counterparty contract, tags: [authorization, idempotency, receipts, recovery, evidence]}
+  - {id: machine-native-experience-research, name: Machine-native experience research, tags: [research, agents, machine-web, experience, evidence]}
+  - {id: research-data-exchange, name: Research data exchange, tags: [research, data, provenance, agents, evidence]}
+  - {id: research-intelligence-v2, name: Machine-interface research intelligence, tags: [research, evidence, machine-interface, mcp, a2a, openapi, llms-txt]}
+  - {id: research-commons, name: Research Commons and bounded quests, tags: [research, quests, agents, evidence, machine-web, mcp, a2a]}
+  - {id: bounded-research-quests, name: Bounded research quests, tags: [quests, research, evidence, bounded-actions]}
+  provider_extensions:
+    research_commons: >-
+      Non-spec block pointing at /.well-known/research-commons.json, the rooms/quests/inbox endpoints and a
+      policy map (public_reads true, write_authentication scoped_revocable_bearer_or_same_origin_session,
+      credential_lifetime_days 30, payments_enabled false, monetary_rewards false). The card states in the
+      research-commons skill that "This Agent Card grants no write authority."
+    brand: Logo URLs (light and dark) with a brand version of 2026-09-13.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: '1.0'
+  preferred_transport: JSONRPC (supportedInterfaces[0].protocolBinding)
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields:
+    default_input_modes: true
+    default_output_modes: true
+    preferred_transport: true
+  grade_basis: >-
+    Graded against the A2A 1.0.0 hard checks. capabilities is an OBJECT (pass) with streaming, pushNotifications
+    and extendedAgentCard. protocolVersion is present (pass) — carried on each supportedInterfaces[] entry as
+    "1.0", which is where the 1.0.0 schema places it; there is no top-level protocolVersion, url or
+    preferredTransport because that triple is the 0.3.x shape and this card is written to the 1.0.0 shape
+    (supportedInterfaces[] with protocolBinding). skills is an ARRAY (pass) of twelve fully-populated skills,
+    each with id, name, description, tags and examples. defaultInputModes and defaultOutputModes are present.
+    a2aregistry.org's own validator also reports conformance true for the card document.
+  deviations:
+  - field: url / protocolVersion / preferredTransport (top level)
+    observed: absent; the equivalents live in supportedInterfaces[]
+    note: >-
+      Correct for A2A 1.0.0, recorded because readers written against 0.3.x look for the top-level triple and
+      will not find it. Both card shapes coexist in the catalog.
+  - field: securitySchemes / security
+    observed: absent
+    note: >-
+      The card declares no authentication scheme. That is consistent with the surface it describes — every skill
+      is a public read and the card says it grants no write authority — but an agent cannot learn from the card
+      that Commons writes need the separate mr_c_ bearer credential; it has to follow research_commons.contract.
+  - field: version
+    observed: network-alpha-2
+    note: Not a semantic version; the provider versions its surfaces by milestone name (network-alpha-2, 2026-09-commons-1, 2026-09-alpha-1).
+  - field: message/send response shape
+    observed: not exercised by this pipeline; a2aregistry.org reports its SDK could not parse the result (unwrapped Task instead of SendMessageResponse)
+    note: >-
+      Third-party observation from the registry's task_conformance check on 2026-09-19, recorded because it
+      bears on whether a stock A2A 1.0 client can complete a task, not just fetch the card. API Evangelist did
+      not send a message.
+  - field: skills[].inputModes / outputModes / security
+    observed: absent on every skill
+    note: Optional per-skill fields; the card relies on the text/plain + application/json defaults.
+  - field: research_commons / brand
+    observed: non-spec top-level extension objects
+    note: Harmless to a conformant reader; recorded so nobody mistakes them for A2A fields.
+surface_relationship:
+  note: >-
+    Machine Realms publishes four machine surfaces on one origin and says so in its own discovery manifest.
+    A2A: twelve read-only discovery/research skills at https://machinerealms.com/a2a (JSONRPC) and /a2a/v1
+    (HTTP+JSON). MCP: a read-only compatibility surface at https://machinerealms.com/mcp with three Moltbook
+    telemetry tools and nine machinerealms:// resources (see mcp/machinerealms-com-mcp.yml). REST: a public
+    HTTP+JSON index at /api/v1 whose Research Commons slice is published as OpenAPI 3.1 (27 operations, see
+    openapi/). llms.txt at the root. The A2A skills describe the same registry, evidence, offers, capability
+    vocabulary and Research Commons data the REST index serves; writes (enrollment, contributions, quests) exist
+    only on the REST contract behind a scoped bearer credential — see mcp/machinerealms-com-tool-crosswalk.yml.

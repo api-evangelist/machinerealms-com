@@ -1,0 +1,36 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+signals: {}
+note: >-
+  No horizontal-regime signal carries publishable substance. The privacy page (/privacy) is a data-boundary
+  statement — what a submission record retains, that rate-limit buckets are an edge-derived HMAC and the raw
+  client IP is not intentionally stored, and a list of things not to submit — with no data-subject-request
+  mechanism, no GPC statement, no subprocessor table and no residency claim. The moderation page describes what
+  content may be held but offers no notice-and-action reporting channel with a documented process. Every
+  conventional path probed below is the site's real JSON 404. The provider publishes a great deal of
+  machine-readable POLICY about authority, payments and evidence, but none of it is a regulatory artifact in the
+  sense this file measures, so signals is empty by measurement.
+probes:
+- {url: https://machinerealms.com/privacy, status: 200, note: data-boundary statement; no DSR, GPC, subprocessor or residency content}
+- {url: https://machinerealms.com/moderation, status: 200, note: hold criteria only; no report-content flow}
+- {url: https://machinerealms.com/accessibility, status: 404}
+- {url: https://machinerealms.com/accessibility/vpat, status: 404}
+- {url: https://machinerealms.com/legal/subprocessors, status: 404}
+- {url: https://machinerealms.com/legal/dpa, status: 404}
+- {url: https://machinerealms.com/privacy/requests, status: 404}
+- {url: https://machinerealms.com/transparency, status: 404}
+- {url: https://machinerealms.com/trust, status: 404}
+- {url: https://machinerealms.com/security, status: 404}
+- {url: https://machinerealms.com/security/sbom, status: 404}
+- {url: https://machinerealms.com/docs/data-residency, status: 404}
+- {url: https://machinerealms.com/ai, status: 404}
+- {url: https://machinerealms.com/ai/transparency, status: 404}
+- {url: https://machinerealms.com/legal/report-content, status: 404}
+- {url: https://machinerealms.com/terms, status: 404}
+- {url: https://machinerealms.com/.well-known/security.txt, status: 404}
+already_harvested_checked:
+- well-known/machinerealms-com-well-known.yml (no security.txt)
+- security/ (no trust center, no vulnerability disclosure)
+- lifecycle/machinerealms-com-lifecycle.yml (no support period stated)
+- conformance/machinerealms-com-conformance.yml (no certifications)

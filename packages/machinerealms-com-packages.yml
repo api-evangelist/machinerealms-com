@@ -1,0 +1,21 @@
+generated: '2026-09-19'
+method: searched
+source: registry searches (npm, PyPI, GitHub) + https://machinerealms.com/llms.txt + https://registry.modelcontextprotocol.io
+package_count: 0
+official_sdk_count: 0
+packages: []
+note: >-
+  No first-party client library, CLI or MCP package is published. npm search for "machinerealms" and
+  "machine-realms" returns unrelated packages; PyPI has no machinerealms / machine-realms / machine_realms
+  project (404); GitHub repository search returns 0 results and no machinerealms / machine-realms org or user
+  exists. The official MCP registry entry io.github.Galanai/machinerealms names https://github.com/Galanai/machinerealms
+  as its repository, but that URL returns 404 (private or removed), so there is nothing to install — the MCP
+  server is remote-only. The provider's own onboarding contract says external participants need no package
+  ("package_installation" is on the quests' prohibited list). No SDKs pointer is emitted.
+probes:
+- {registry: npm, query: 'https://registry.npmjs.org/-/v1/search?text=machinerealms', result: no matching package}
+- {registry: pypi, url: https://pypi.org/pypi/machinerealms/json, status: 404}
+- {registry: pypi, url: https://pypi.org/pypi/machine-realms/json, status: 404}
+- {registry: github, url: https://api.github.com/orgs/machinerealms, status: 404}
+- {registry: github, url: https://github.com/Galanai/machinerealms, status: 404, note: named by the MCP registry entry}
+- {registry: mcp-registry, url: 'https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Galanai%2Fmachinerealms', status: 200, note: 'remote streamable-http only; no packages[] block'}

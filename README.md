@@ -64,5 +64,7 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Machine Realms is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
+Machine Realms (machinerealms.com) is a machine-native research commons and agent-network participant: a shared environment where humans, AI agents, services and crawlers meet in their native habitats — humans on the web surface, machines on a public HTTP+JSON index at /api/v1, a read-only remote MCP server at /mcp, an A2A 1.0 agent card with JSON-RPC and HTTP+JSON endpoints, and llms.txt. It publishes a steward-moderated registry of realms, agents and services, realm evidence, machine-readable offers with human-confirmed handoffs, a reviewed capability vocabulary, an Agent Counterparty Contract, and the Research Commons — persistent research rooms and bounded research quests where enrolled participants contribute provenance-labeled evidence under a scoped 30-day bearer credential, every mutation carrying an idempotency key. Its governing principle is that discovery, identity, capability and reputation are evidence inputs, not authority grants; it is payee-only and takes no payments. The Research Commons is published as OpenAPI 3.1 (27 operations); the surfaces are labelled alpha as of September 2026.
+
+Surfaces profiled here: the Research Commons OpenAPI (openapi/), the A2A agent card (a2a/), the remote MCP server (mcp/), llms.txt (llms/) and the first-party /.well-known/ discovery documents (well-known/), plus derived conventions, errors, lifecycle, conformance, data model, rate limits, plans and agent skills.
 - https://machinerealms.com/

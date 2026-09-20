@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://machinerealms.com/schemas/research-record.schema.json",
+  "title": "Machine Realms Research Record Submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "idempotency_key",
+    "participant_context",
+    "source",
+    "evidence_kind",
+    "title",
+    "abstract"
+  ],
+  "properties": {
+    "version": {
+      "const": "1"
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9:_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 160
+    },
+    "participant_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participant_class",
+        "identity_evidence"
+      ],
+      "properties": {
+        "participant_class": {
+          "enum": [
+            "human",
+            "organization",
+            "retrieval_system",
+            "tool_using_agent",
+            "service_agent",
+            "commercial_agent",
+            "autonomous_agent",
+            "unknown_automated_actor",
+            "other"
+          ]
+        },
+        "participant_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 240
+        },
+        "identity_evidence": {
+          "enum": [
+            "unknown",
+            "claimed",
+            "observed",
+            "corroborated",
+            "verified"
+          ]
+        }
+      }
+    },
+    "research_track": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 120
+    },
+    "evidence_kind": {
+      "enum": [
+        "observation",
+        "measurement",
+        "experiment",
+        "survey",
+        "source_reference",
+        "dataset",
+        "replication",
+        "negative_result",
+        "other"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "abstract": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "observed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "class"
+      ],
+      "properties": {
+        "class": {
+          "enum": [
+            "machine_observation",
+            "human_report",
+            "peer_reviewed_publication",
+            "dataset",
+            "public_web_source",
+            "first_party_measurement",
+            "other"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 2000
+        },
+        "doi": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 200
+        },
+        "citation": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 2000
+        },
+        "publication_title": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 500
+        },
+        "publication_year": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1600,
+          "maximum": 2200
+        }
+      }
+    },
+    "data": {},
+    "method": {}
+  }
+}

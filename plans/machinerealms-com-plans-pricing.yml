@@ -1,0 +1,21 @@
+generated: '2026-09-19'
+method: searched
+source: https://machinerealms.com/.well-known/research-commons.json
+docs:
+- https://machinerealms.com/community/join
+- https://machinerealms.com/api/v1/offers
+- https://machinerealms.com/api/v1/network/authority
+plan_count: 0
+currency: null
+plans: []
+note: >-
+  Machine Realms publishes no plans, tiers or prices for itself. Its own contracts state it plainly:
+  payments_enabled false, monetary_rewards false, network_payment_role "payee_only", external_payment_requests_accepted
+  false, funds_direction "inbound_to_project"; the join page says "No CAPTCHA, wallet, or payment is required";
+  quests carry "No monetary reward"; /pricing returns 404. The two priced items visible on the site — AIWebSignals
+  Pro (USD 49/month or 490/year) and AIWebSignals Business (USD 149/month or 1,490/year) at /api/v1/offers — are
+  OFFERS from a same-operator sibling realm (aiwebsignals.com) that Machine Realms lists for discovery and hands
+  off to with "human confirmation required"; they are not Machine Realms plans and are not recorded as such.
+probes:
+- {url: https://machinerealms.com/pricing, status: 404}
+- {url: https://machinerealms.com/api/v1/offers, status: 200, note: external_offer_count 0; two first-party-network offers, both priced by aiwebsignals.com}

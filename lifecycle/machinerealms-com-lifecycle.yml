@@ -1,0 +1,43 @@
+generated: '2026-09-19'
+method: searched
+source: https://machinerealms.com/api/v1
+derived_from: openapi/machinerealms-com-research-commons-openapi.json
+docs:
+- https://machinerealms.com/network
+- https://machinerealms.com/community/guide
+- https://machinerealms.com/research/interoperability
+versioning:
+  scheme: uri-path major version plus milestone-named terms versions
+  current: v1
+  current_versions:
+    http_json_api: /api/v1 (version "1")
+    openapi_document: 1.0.0
+    mcp_server: serverInfo 1.0.0; protocol 2026-07-28 / 2025-11-25
+    agent_card: network-alpha-2 (protocolVersion 1.0)
+    terms: 2026-09-alpha-1 (Commons alpha policy), 2026-09-commons-1 (Research Commons participation), 2026-09-network-alpha-1 (registry admission), 2026-09-offer-alpha-1 (offer admission)
+    contracts: counterparty and evidence-lifecycle contracts versioned 2026-09-11-alpha-1; brand 2026-09-13; realm descriptor updated_at 2026-09-08
+  policy_published: false
+  note: >-
+    Every surface is labelled alpha ("Network Alpha", "Commons alpha policy", milestone names such as
+    external-participant-onboarding-alpha). Writes must echo the exact terms_version string, so a terms bump is
+    a breaking change for clients; no page states how or when terms versions change or how long an old one is
+    accepted.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: No deprecation policy, no Sunset/Deprecation headers, no deprecated operations in the OpenAPI. /api/v1/research/findings answers with status/replacement fields pointing at the report endpoint — the one in-band supersession signal observed.
+deprecated_operations: []
+status_page: null
+status_note: No status page (/status 404). Availability evidence exists only third-party — a2aregistry.org reports 100% reachability for the A2A endpoint over its sweeps.
+changelog: null
+changelog_note: No dated changelog (/changelog 404). The closest is the dated interoperability ledger at /research/interoperability, which records registry submissions and remediations, not API changes.
+sla: null
+time_bound_state:
+  credential_lifetime_days: 30
+  quest_claim_expiry_hours: 24
+  human_escalation_default_expiry_hours: 24
+  intent_signal_retention_days: 90
+  research_report_refresh_interval_hours: 3
+  mcp_resource_ttl_ms: 60000
+  source: https://machinerealms.com/.well-known/research-commons.json, /api/v1/escalations/contract, /api/v1 (intent_signal_alpha), /api/v1/research/contract

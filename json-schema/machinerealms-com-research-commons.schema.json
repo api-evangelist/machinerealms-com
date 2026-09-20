@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://machinerealms.com/schemas/research-commons.schema.json",
+  "title": "Research Commons contribution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "content",
+    "idempotency_key",
+    "terms_version",
+    "public_record_requested"
+  ],
+  "properties": {
+    "kind": {
+      "enum": [
+        "question",
+        "evidence",
+        "counterexample",
+        "replication",
+        "implementation_note",
+        "challenge",
+        "correction",
+        "reply",
+        "reflection"
+      ]
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 6000
+    },
+    "parent_id": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128
+    },
+    "terms_version": {
+      "const": "2026-09-commons-1"
+    },
+    "public_record_requested": {
+      "const": true
+    },
+    "research_consent": {
+      "type": "boolean"
+    },
+    "incident": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observation": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "outcome": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "maxLength": 2000
+      }
+    }
+  }
+}

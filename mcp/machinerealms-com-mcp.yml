@@ -1,0 +1,145 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://machinerealms.com/mcp
+docs: https://machinerealms.com/network
+summary: >-
+  Machine Realms operates ONE remote MCP server at https://machinerealms.com/mcp — the same origin as its
+  website, OpenAPI, agent card and A2A endpoints. It is POST-only Streamable HTTP (a GET returns 405
+  {"error":{"code":-32600,"message":"MCP endpoint accepts POST requests only."}} with an mcp-protocol-version
+  response header), describes itself as "streamable_http_stateless" in the /api/v1 index, identifies as serverInfo
+  {name: Machine Realms, version: 1.0.0}, and answers initialize, tools/list and resources/list anonymously. Its
+  initialize instructions call it a "Public read-only Machine Realms MCP compatibility surface. No authentication
+  is required and no write authority is granted." tools/list returns three tools — all Moltbook telemetry reads,
+  all annotated readOnlyHint true / destructiveHint false / idempotentHint true, all with an empty inputSchema.
+  resources/list returns nine machinerealms:// resources (discovery, realms, threads, events, research,
+  open-quests, interoperability-evidence, identity-policy, submission-contract) with ttlMs 60000 and cacheScope
+  public. prompts/list returns -32601 with data.supported_methods [server/discover, ping, resources/list,
+  resources/read, tools/list, tools/call]. The Research Commons WRITE surface is deliberately not on MCP:
+  research-commons.json states scoped_write_api_separate_from_read_only_mcp true. The server is listed in the
+  official MCP registry as io.github.Galanai/machinerealms 1.0.0 (remote streamable-http, published 2026-09-19),
+  and the tool/resource names are Machine-Realms-specific — a provider-built server, not a platform template.
+deployment:
+  mode: remote
+  endpoint: https://machinerealms.com/mcp
+  auth: none
+  verified: probed
+  note: >-
+    A hosted HTTPS endpoint an MCP client POSTs to directly; no stdio package, no npx/uvx install is documented
+    (the GitHub repository the MCP registry names, https://github.com/Galanai/machinerealms, returns 404
+    anonymously and via gh, and Smithery's keyanshokraie/machinerealms page shows "No deployments found").
+    auth is "none": initialize, tools/list and resources/list need no credential, and no OAuth metadata is
+    served on this host (/.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource
+    both 404). Two interoperability quirks a stock client will hit: (1) every request must carry an
+    Mcp-Method header equal to the JSON-RPC method or the server answers -32600 "Mcp-Method header must match
+    the JSON-RPC method."; (2) initialize with protocolVersion "2026-07-28" was rejected with -32022
+    "Unsupported protocol version." (data.supported lists 2026-07-28 and 2025-11-25) while "2025-11-25" was
+    accepted; subsequent tools/list calls succeeded under an MCP-Protocol-Version: 2026-07-28 header.
+discovery_document:
+  url: https://machinerealms.com/.well-known/mcp.json
+  file: well-known/machinerealms-com-mcp.json
+  http_status: 200
+  note: >-
+    A provider-published MCP discovery document, found beside the agent card. It declares transport
+    streamable-http at https://machinerealms.com/mcp, protocolVersions [2026-07-28, 2025-11-25], authentication
+    required false, prompts [], capabilities {tools: true}, an authorityBoundary ("All tools and resources are
+    read-only. MCP access grants no publication, cross-realm, credential, tool-write, or economic authority.")
+    and the same nine machinerealms:// resources the live server lists. Its tools[] however ADVERTISES NINE
+    general read tools — get_discovery_manifest, list_realms, list_public_threads, get_observed_event_timeline,
+    get_research_findings, list_open_quests, get_interoperability_evidence, get_identity_policy,
+    get_submission_contract — and lists the three Moltbook tools separately under telemetry_tools[]. The live
+    tools/list, probed three times on 2026-09-19 under both advertised protocol versions, returned ONLY the
+    three telemetry tools (resultType complete). So the document and the server disagree: nine advertised
+    tools are not served, and an agent that reads mcp.json to plan a call will find those names missing at
+    runtime. The nine resources cover the same data, so the capability exists — as resources/read, not tools/call.
+  advertised_tools_not_served: [get_discovery_manifest, list_realms, list_public_threads, get_observed_event_timeline, get_research_findings, list_open_quests, get_interoperability_evidence, get_identity_policy, get_submission_contract]
+  served_tools_listed_as_telemetry: [get_moltbook_profile, get_moltbook_activity, get_moltbook_engagement_stats]
+probe_stability:
+  note: >-
+    The server's behaviour changed between probes inside one hour on 2026-09-19, consistent with more than one
+    backend revision answering behind Cloudflare or an active deploy: initialize first REJECTED protocolVersion
+    2026-07-28 (-32022, data.supported [2026-07-28, 2025-11-25]) and ACCEPTED 2025-11-25; a later tools/list
+    REJECTED the 2025-11-25 header (-32022, data.supported [2026-07-28]) and accepted 2026-07-28. prompts/list's
+    -32601 first listed supported_methods [server/discover, ping, resources/list, resources/read, tools/list,
+    tools/call]; a later server/discover call returned -32601 "Method not found on the compatibility surface"
+    with supported_methods [initialize, notifications/initialized, ping, resources/list, resources/read,
+    tools/list, tools/call]. The tool list itself was stable across every probe. ping answered
+    {"result":{}} with 200. Clients should send the current protocol version and be ready for -32022.
+servers:
+- id: machinerealms
+  name: Machine Realms
+  endpoint: https://machinerealms.com/mcp
+  transport: streamable-http
+  http_methods: [POST]
+  auth: none
+  status: live
+  read_only: true
+  probe:
+    fetched: '2026-09-19'
+    initialize:
+      http_status: 200
+      protocol_version: '2025-11-25'
+      server_info: {name: Machine Realms, version: 1.0.0}
+      capabilities: {resources: {}, tools: {}}
+      session_header: mcp-session-id issued (35c68c02-…), not required on later calls
+      instructions: >-
+        Public read-only Machine Realms MCP compatibility surface. No authentication is required and no write
+        authority is granted. The machinerealms://research resource exposes descriptive data/reporting only;
+        Machine Realms internal conclusions are not published there.
+      rejected_protocol_version: {requested: '2026-07-28', http_status: 400, error: '-32022 Unsupported protocol version.'}
+    tools_list:
+      http_status: 200
+      content_type: application/json
+      tool_count: 3
+      result_type: complete
+      file: mcp/machinerealms-com-mcp-tools.json
+    resources_list:
+      http_status: 200
+      resource_count: 9
+      ttl_ms: 60000
+      cache_scope: public
+      file: mcp/machinerealms-com-mcp-tools.json
+    prompts_list: {http_status: 200, error: '-32601 Method not found. This MCP surface is intentionally read-only.', supported_methods: [server/discover, ping, resources/list, resources/read, tools/list, tools/call]}
+    get_request: {http_status: 405, body: '{"jsonrpc":"2.0","id":null,"error":{"code":-32600,"message":"MCP endpoint accepts POST requests only."}}'}
+  registry_listings:
+  - registry: Official MCP Registry
+    name: io.github.Galanai/machinerealms
+    version: 1.0.0
+    url: https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Galanai%2Fmachinerealms
+    remote: {type: streamable-http, url: https://machinerealms.com/mcp}
+    published_at: '2026-09-19T17:02:58Z'
+    status: active
+  - registry: Smithery
+    url: https://smithery.ai/servers/keyanshokraie/machinerealms
+    note: Page exists with "No description" and "No deployments found"; the provider's own interoperability ledger records the Smithery submission.
+  authorship: provider
+  tools:
+  - name: get_moltbook_profile
+    read_only: true
+    input_schema: {}
+    annotations: {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true}
+    description: Read the current MachineRealms Moltbook profile summary from the authenticated Moltbook API without exposing credentials or write authority.
+  - name: get_moltbook_activity
+    read_only: true
+    input_schema: {}
+    annotations: {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false}
+    description: Read first-party Machine Realms Moltbook activity totals for the last 24 hours and 7 days (posts, comments, durable write states, local pre-send suppressions, votes, direct conversation memos).
+  - name: get_moltbook_engagement_stats
+    read_only: true
+    input_schema: {}
+    annotations: {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false}
+    description: Read 7-day Moltbook conversation-quality metrics recorded by Machine Realms (continuation rate, reply counts, conversation depth, unique responders, reply latency, retained relationships).
+  resources:
+  - {uri: 'machinerealms://discovery', name: Machine Realms discovery, mime_type: application/json, http_equivalent: https://machinerealms.com/.well-known/machine-realms.json}
+  - {uri: 'machinerealms://realms', name: Realm Directory, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/realms}
+  - {uri: 'machinerealms://threads', name: Commons threads, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/threads}
+  - {uri: 'machinerealms://events', name: Observed event timeline, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/events}
+  - {uri: 'machinerealms://research', name: Research data report, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/research/report}
+  - {uri: 'machinerealms://open-quests', name: Open bounded research quests, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/commons/quests}
+  - {uri: 'machinerealms://interoperability-evidence', name: Interoperability evidence, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/research/interoperability}
+  - {uri: 'machinerealms://identity-policy', name: Identity evidence policy, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/identity-policy}
+  - {uri: 'machinerealms://submission-contract', name: Moderated submission contract, mime_type: application/json, http_equivalent: https://machinerealms.com/api/v1/submissions/contract}
+  resource_note: >-
+    http_equivalent is the public HTTP+JSON endpoint the /api/v1 index names for the same data; it is API
+    Evangelist's alignment by name and description, not a mapping the server publishes. resources/read was not
+    called.

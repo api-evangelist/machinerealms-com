@@ -1,0 +1,145 @@
+generated: '2026-09-19'
+method: probed
+source: live GET of the named /.well-known/ path list on every host this record knows
+hit_count: 7
+note: >-
+  Two hosts are in play and both are the same origin: machinerealms.com is the website, the OpenAPI servers[]
+  host, the MCP host (https://machinerealms.com/mcp) and the A2A host, so the RFC 9728 resource-server check and
+  the primary-domain check collapse onto one host; www.machinerealms.com 308s most paths to the apex but serves
+  agent-card.json, machine-realms.json and machine-experience-research.json directly. Of the closed path list,
+  ONE standard document is served — /.well-known/agent-card.json (A2A) — and every OAuth/OIDC, security.txt,
+  api-catalog, ai-plugin, ucp/acp, aauth and apis.json path returns the site's real JSON 404
+  ({"error":"not_found"}, 21 bytes; the negative-control path also 404s, so these are true absences and not a
+  catch-all). The provider additionally publishes FIVE first-party discovery documents under /.well-known/ that
+  its own manifests and llms.txt name — machine-realms.json (service + protocol discovery), mcp.json,
+  research-commons.json (participation contract), machine-experience-research.json (research contract) and
+  machine-realm.json (realm descriptor) — recorded as extra rows with their files. A WellKnown pointer is emitted
+  on the strength of the agent card and these served documents; NO SecurityTxt pointer is emitted because
+  security.txt is absent. No oauth-protected-resource or oauth-authorization-server metadata exists on the MCP
+  host, which is consistent with the MCP server requiring no authentication.
+hosts:
+- host: https://machinerealms.com
+  roles: [registrable-domain, openapi-servers, mcp-server, a2a-endpoint, docs]
+  path_echo_control: passed
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 6717
+    file: a2a/machinerealms-com-agent-card.json
+    note: A2A 1.0 agent card; graded in a2a/machinerealms-com-a2a.yml.
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 6709
+    file: well-known/machinerealms-com-mcp.json
+    note: Provider-published MCP discovery document (not on the closed list; found because it sits beside the agent card).
+  - path: /.well-known/machine-realms.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 15430
+    file: well-known/machinerealms-com-machine-realms.json
+    note: First-party service and protocol discovery manifest named by llms.txt and the /api/v1 index.
+  - path: /.well-known/research-commons.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 5856
+    file: well-known/machinerealms-com-research-commons.json
+    note: Research Commons participation contract; identical to GET /api/v1/commons.
+  - path: /.well-known/machine-experience-research.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 11568
+    file: well-known/machinerealms-com-machine-experience-research.json
+  - path: /.well-known/machine-realm.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 617
+    file: well-known/machinerealms-com-machine-realm.json
+    note: The realm descriptor Machine Realms asks other realms to publish, published for itself.
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 1822
+    file: llms/machinerealms-com-llms.txt
+  - path: /.well-known/machinerealms-negative-control-4b7e19a2.json
+    status: 404
+    control: true
+- host: https://www.machinerealms.com
+  roles: [www]
+  path_echo_control: passed
+  note: 308 Permanent Redirect to the apex for the home page and most /.well-known/ paths; three documents are served directly.
+  documents:
+  - path: /.well-known/security.txt
+    status: 308
+    redirect: https://machinerealms.com/.well-known/security.txt
+  - path: /.well-known/openid-configuration
+    status: 308
+  - path: /.well-known/oauth-authorization-server
+    status: 308
+  - path: /.well-known/oauth-protected-resource
+    status: 308
+  - path: /.well-known/api-catalog
+    status: 308
+  - path: /.well-known/ai-plugin.json
+    status: 308
+  - path: /.well-known/ucp.json
+    status: 308
+  - path: /.well-known/acp.json
+    status: 308
+  - path: /.well-known/aauth-resource.json
+    status: 308
+  - path: /.well-known/apis.json
+    status: 308
+  - path: /apis.json
+    status: 308
+  - path: /apis.yml
+    status: 308
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 6725
+    note: Served directly on www (8 bytes longer than the apex copy); the apex document is the canonical one saved.
+  - path: /.well-known/agent.json
+    status: 308
+  - path: /.well-known/mcp.json
+    status: 308
+  - path: /.well-known/machine-realms.json
+    status: 200
+    bytes: 15438
+  - path: /.well-known/machine-experience-research.json
+    status: 200
+    bytes: 11568
+  - path: /.well-known/machinerealms-negative-control-4b7e19a2.json
+    status: 308
+    control: true

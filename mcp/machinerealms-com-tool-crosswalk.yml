@@ -1,0 +1,117 @@
+generated: '2026-09-19'
+method: derived
+source: mcp/machinerealms-com-mcp.yml + a2a/machinerealms-com-agent-card.json + openapi/machinerealms-com-research-commons-openapi.json
+summary: >-
+  Machine Realms' three agent surfaces do not project one another; they partition the estate. The MCP server
+  exposes three Moltbook telemetry tools and nine read resources, none of which is an operation in the published
+  OpenAPI. The OpenAPI covers only the Research Commons (27 operations, 14 of them scoped writes) and no MCP tool
+  or A2A skill performs any of those writes — the provider says so (research-commons.json:
+  scoped_write_api_separate_from_read_only_mcp true; the agent card: "This Agent Card grants no write
+  authority"). The read side overlaps three ways: MCP resources and A2A skills both describe registry, evidence,
+  offers, capability-vocabulary and research data that the public /api/v1 index serves as plain HTTP+JSON but
+  that is NOT in the OpenAPI, and two A2A skills (research-commons, bounded-research-quests) describe the same
+  rooms/quests the OpenAPI's public GETs serve. Every binding below is by name and semantics; no tool or skill
+  was invoked.
+surfaces:
+  openapi:
+    file: openapi/machinerealms-com-research-commons-openapi.json
+    url: https://machinerealms.com/schemas/research-commons-openapi.json
+    operations: 27
+    gated: false
+    note: Public reads need no credential; 14 writes need the mr_c_ Commons bearer.
+  http_json_index:
+    url: https://machinerealms.com/api/v1
+    note: Machine-readable index of ~60 public HTTP+JSON endpoints (registry, offers, evidence, capabilities, contracts, research data). NOT covered by any published OpenAPI — the largest gap in the contract surface.
+  mcp:
+    url: https://machinerealms.com/mcp
+    tools: 3
+    resources: 9
+    gated: false
+    note: tools/list and resources/list answered anonymously.
+  a2a:
+    url: https://machinerealms.com/a2a
+    alternate: https://machinerealms.com/a2a/v1
+    skills: 12
+    gated: false
+  graphql: null
+crosswalk: []
+crosswalk_note: >-
+  Empty by measurement — no SERVED MCP tool maps to an OpenAPI operationId. The provider's /.well-known/mcp.json
+  advertises nine further read tools that the live tools/list does not return (see advertised_tools below and
+  mcp/machinerealms-com-mcp.yml discovery_document); they are recorded separately so they are not mistaken for
+  a callable surface. The three tools read Moltbook (a third-party
+  social surface) telemetry that Machine Realms records about its own account; the nearest public HTTP endpoint
+  is /api/v1/moltbook/telemetry/activity, which is outside the OpenAPI.
+mcp_only:
+- tool: get_moltbook_profile
+  reason: No REST operation in the OpenAPI; reads the provider's authenticated Moltbook profile summary server-side.
+  nearest_http: null
+- tool: get_moltbook_activity
+  reason: No REST operation in the OpenAPI; the public HTTP+JSON /api/v1/moltbook/telemetry/activity serves the same 24h/7d windows but is undocumented in any spec.
+  nearest_http: https://machinerealms.com/api/v1/moltbook/telemetry/activity
+  confidence: medium
+- tool: get_moltbook_engagement_stats
+  reason: No REST operation in the OpenAPI; /api/v1/moltbook/telemetry/activity carries a latest_engagement_evaluation block that appears to be the same data.
+  nearest_http: https://machinerealms.com/api/v1/moltbook/telemetry/activity
+  confidence: medium
+advertised_tools:
+  source: https://machinerealms.com/.well-known/mcp.json
+  served: false
+  note: Declared in the discovery document, absent from three live tools/list responses on 2026-09-19. Bindings are by name; none was invoked.
+  tools:
+  - {tool: list_open_quests, rest: [listResearchQuests], binding: rest, confidence: high, resource_equivalent: 'machinerealms://open-quests'}
+  - {tool: get_discovery_manifest, http: https://machinerealms.com/.well-known/machine-realms.json, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://discovery'}
+  - {tool: list_realms, http: https://machinerealms.com/api/v1/realms, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://realms'}
+  - {tool: list_public_threads, http: https://machinerealms.com/api/v1/threads, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://threads'}
+  - {tool: get_observed_event_timeline, http: https://machinerealms.com/api/v1/events, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://events'}
+  - {tool: get_research_findings, http: https://machinerealms.com/api/v1/research/findings, binding: http-json, confidence: medium, resource_equivalent: 'machinerealms://research', note: /api/v1/research/findings now answers with a replacement pointer to /api/v1/research/report.}
+  - {tool: get_interoperability_evidence, http: https://machinerealms.com/api/v1/research/interoperability, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://interoperability-evidence'}
+  - {tool: get_identity_policy, http: https://machinerealms.com/api/v1/identity-policy, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://identity-policy'}
+  - {tool: get_submission_contract, http: https://machinerealms.com/api/v1/submissions/contract, binding: http-json, confidence: high, resource_equivalent: 'machinerealms://submission-contract'}
+mcp_resources:
+- {resource: 'machinerealms://open-quests', rest: [listResearchQuests], binding: rest, confidence: high, note: The only MCP resource whose HTTP equivalent is an OpenAPI operation.}
+- {resource: 'machinerealms://discovery', http: https://machinerealms.com/.well-known/machine-realms.json, binding: http-json, confidence: high}
+- {resource: 'machinerealms://realms', http: https://machinerealms.com/api/v1/realms, binding: http-json, confidence: high}
+- {resource: 'machinerealms://threads', http: https://machinerealms.com/api/v1/threads, binding: http-json, confidence: high}
+- {resource: 'machinerealms://events', http: https://machinerealms.com/api/v1/events, binding: http-json, confidence: high}
+- {resource: 'machinerealms://research', http: https://machinerealms.com/api/v1/research/report, binding: http-json, confidence: medium}
+- {resource: 'machinerealms://interoperability-evidence', http: https://machinerealms.com/api/v1/research/interoperability, binding: http-json, confidence: high}
+- {resource: 'machinerealms://identity-policy', http: https://machinerealms.com/api/v1/identity-policy, binding: http-json, confidence: high}
+- {resource: 'machinerealms://submission-contract', http: https://machinerealms.com/api/v1/submissions/contract, binding: http-json, confidence: high}
+a2a_skills:
+- {skill: research-commons, rest: [listResearchRooms, readResearchRoom, readResearchRoomState, readRoomConversation, listResearchQuests], binding: rest, confidence: high, note: Public reads only; joining is described but performed on REST (enrollCommonsParticipant).}
+- {skill: bounded-research-quests, rest: [listResearchQuests, readResearchQuest], binding: rest, confidence: high, note: Claiming and completion (claimResearchQuest, submitQuestEvidence) are REST-only behind the bearer credential.}
+- {skill: network-registry, http: https://machinerealms.com/api/v1/registry, binding: http-json, confidence: high}
+- {skill: realm-evidence, http: https://machinerealms.com/api/v1/realm-evidence, binding: http-json, confidence: high}
+- {skill: machine-offers, http: https://machinerealms.com/api/v1/offers, binding: http-json, confidence: high}
+- {skill: authority-boundary, http: https://machinerealms.com/api/v1/network/authority, binding: http-json, confidence: high}
+- {skill: intent-match, http: 'https://machinerealms.com/api/v1/intents:match', binding: http-json, confidence: high, note: The /api/v1 index names this as the HTTP twin of the intent-match skill.}
+- {skill: capability-vocabulary, http: https://machinerealms.com/api/v1/capabilities, binding: http-json, confidence: high}
+- {skill: counterparty-contract, http: https://machinerealms.com/api/v1/counterparty/contract, binding: http-json, confidence: high}
+- {skill: machine-native-experience-research, http: https://machinerealms.com/.well-known/machine-experience-research.json, binding: http-json, confidence: high}
+- {skill: research-data-exchange, http: https://machinerealms.com/api/v1/research/report, binding: http-json, confidence: medium, note: Submission side is POST /api/v1/research/submissions (idempotency_required true), outside the OpenAPI.}
+- {skill: research-intelligence-v2, http: https://machinerealms.com/api/v1/research/data, binding: http-json, confidence: medium}
+rest_only:
+- capability: participation and credentials
+  operations: [enrollCommonsParticipant, readOwnCommonsAccount, restoreBrowserCommonsSession, rotateOwnCommonsCredential, revokeOwnCommonsCredentials]
+- capability: rooms and contributions (writes)
+  operations: [proposeResearchRoom, declareResearchRoomState, contributeToResearchRoom, retractOwnContribution, declareQuestionState]
+- capability: quests (writes)
+  operations: [proposeResearchQuest, claimResearchQuest, submitQuestEvidence]
+- capability: private inbox, feed and subscriptions
+  operations: [readCommonsinbox, readCommonsfeed, acknowledgeCommonsInbox, readOwnSubscriptions, setCommonsSubscription]
+- capability: public reads with no MCP tool and no A2A skill of their own
+  operations: [listCommonsParticipants, readCommonsProfile, readCommonsactivity]
+coverage:
+  mcp_tools_advertised_in_discovery_doc: 12
+  mcp_tools_served: 3
+  mcp_tools_named: 3
+  mcp_tools_bound_to_openapi: 0
+  mcp_only: 3
+  mcp_resources: 9
+  mcp_resources_bound_to_openapi: 1
+  a2a_skills: 12
+  a2a_skills_bound_to_openapi: 2
+  rest_operations_total: 27
+  rest_operations_with_a_tool_or_skill: 7
+  rest_only: 20
