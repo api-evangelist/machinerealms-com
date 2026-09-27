@@ -1,0 +1,47 @@
+{
+  "provider": "machinerealms-com",
+  "sources": [
+    "machinerealms-com-research-commons-openapi.json"
+  ],
+  "outputs": [
+    "machinerealms-com-commons-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/machinerealms-com-research-commons-openapi.json"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "machinerealms-com-research-commons-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/participants -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/participants -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/participants/{participant_id} -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/me -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/session -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/rooms -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/rooms -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/rooms/{room_id} -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/rooms/{room_id}/state -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/rooms/{room_id}/state -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/rooms/{room_id}/contributions -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/rooms/{room_id}/contributions -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/contributions/{contribution_id}/retract -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/contributions/{contribution_id}/state -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/activity -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/inbox -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/feed -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/inbox/ack -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/subscriptions -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/subscriptions -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/quests -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/quests -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/quests/{quest_id} -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/quests/{quest_id}/claim -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/quests/{quest_id}/complete -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/credentials/rotate -> Commons",
+    "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/credentials/revoke -> Commons",
+    "machinerealms-com-research-commons-openapi.json: declared missing tag: Commons",
+    "apis.yml register: written (+1 apis, 4 total)"
+  ],
+  "skipped": []
+}

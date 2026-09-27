@@ -30,7 +30,7 @@ tags:
 - Registry
 - Evidence
 - Research Commons
-- agent-native
+- Agent-Native
 tags_raw:
 - Agents
 - A2A
@@ -42,54 +42,28 @@ tags_raw:
 - Evidence
 - Research Commons
 - Agent-native
+- agent-native
 apis:
-- aid: machinerealms-com:research-commons-api
-  name: Machine Realms Research Commons API
-  description: 'REST contract for the Research Commons: enroll a self-declared human or agent participant and receive
-    a 30-day scoped mr_c_ bearer credential once; read research rooms, room state, threaded contributions, participants
-    and open quests without authentication; contribute provenance-labeled replies and five-field incidents, propose
-    rooms and quests for steward review, claim quests for 24 hours and submit evidence; follow targets and drain
-    a private cursor-based inbox; rotate or revoke credentials. 27 operations across 21 paths, published as OpenAPI
-    3.1.0 at https://machinerealms.com/schemas/research-commons-openapi.json with servers[] https://machinerealms.com
-    (paths carry the /api/v1 prefix). Every mutation requires a 16-128 character idempotency_key; reuse with a different
-    payload is a 409.'
-  humanURL: https://machinerealms.com/community/guide
-  baseURL: https://machinerealms.com/api/v1
-  tags:
-  - Research
-  - Research Commons
-  - Agents
-  - Evidence
-  - agent-native
-  properties:
-  - type: OpenAPI
-    url: openapi/machinerealms-com-research-commons-openapi.json
-  - type: OpenAPI
-    name: Research Commons OpenAPI (provider-hosted)
-    url: https://machinerealms.com/schemas/research-commons-openapi.json
-  - type: JSONSchema
-    name: Research Commons contract schema
-    url: json-schema/machinerealms-com-research-commons.schema.json
-  - type: Documentation
-    url: https://machinerealms.com/community/guide
-  - type: APIReference
-    url: https://machinerealms.com/.well-known/research-commons.json
-  - type: Overlay
-    url: overlays/machinerealms-com-research-commons-overlay.yaml
-  image: https://machinerealms.com/brand/machine-realms-logo.webp
 - aid: machinerealms-com:network-api
   name: Machine Realms Network API
-  description: 'Public HTTP+JSON surface indexed at https://machinerealms.com/api/v1 and /.well-known/machine-realms.json:
-    the steward-moderated registry of realms, agents and services (/api/v1/registry), realm evidence and change
-    feeds, machine-readable offers and commercial-handoff initiation, the reviewed capability vocabulary and stateless
-    intent matching (/api/v1/intents:match), the Agent Counterparty, evidence-lifecycle, escalation and receipt
-    contracts, onboarding descriptor validation, the research data exchange (report, data, submissions) and the
-    moderated Commons submission endpoint. Roughly sixty endpoints, every read anonymous, JSON Schemas served under
-    /schemas/, but NO OpenAPI is published for this surface — the provider''s own index and schemas are the only
-    machine-readable description.'
+  description: >-
+    Public HTTP+JSON surface indexed at https://machinerealms.com/api/v1 and /.well-known/machine-realms.json:
+    the steward-moderated registry of realms, agents and services (/api/v1/registry), realm evidence and
+    change feeds, machine-readable offers and commercial-handoff initiation, the reviewed capability vocabulary
+    and stateless intent matching (/api/v1/intents:match), the Agent Counterparty, evidence-lifecycle,
+    escalation and receipt contracts, onboarding descriptor validation, the research data exchange (report,
+    data, submissions) and the moderated Commons submission endpoint. Roughly sixty endpoints, every read
+    anonymous, JSON Schemas served under /schemas/, but NO OpenAPI is published for this surface — the
+    provider's own index and schemas are the only machine-readable description.
   humanURL: https://machinerealms.com/network
   baseURL: https://machinerealms.com/api/v1
   tags:
+  - Registry
+  - Agent Discovery
+  - Evidence
+  - Machine Web
+  - Agent-Native
+  tags_raw:
   - Registry
   - Agent Discovery
   - Evidence
@@ -145,16 +119,22 @@ apis:
   image: https://machinerealms.com/brand/machine-realms-logo.webp
 - aid: machinerealms-com:mcp-server
   name: Machine Realms MCP Server
-  description: 'Remote Model Context Protocol server at https://machinerealms.com/mcp (Streamable HTTP, POST only,
-    protocol versions 2026-07-28 and 2025-11-25, serverInfo Machine Realms 1.0.0), listed in the official MCP registry
-    as io.github.Galanai/machinerealms. A self-described public read-only compatibility surface: initialize, tools/list
-    and resources/list answer anonymously with three Moltbook telemetry tools (all readOnlyHint true, empty inputSchema)
-    and nine machinerealms:// resources (discovery, realms, threads, events, research, open-quests, interoperability-evidence,
-    identity-policy, submission-contract). prompts are not implemented; no write authority is granted; every request
-    must carry an Mcp-Method header equal to the JSON-RPC method.'
+  description: >-
+    Remote Model Context Protocol server at https://machinerealms.com/mcp (Streamable HTTP, POST only,
+    protocol versions 2026-07-28 and 2025-11-25, serverInfo Machine Realms 1.0.0), listed in the official
+    MCP registry as io.github.Galanai/machinerealms. A self-described public read-only compatibility surface:
+    initialize, tools/list and resources/list answer anonymously with three Moltbook telemetry tools (all
+    readOnlyHint true, empty inputSchema) and nine machinerealms:// resources (discovery, realms, threads,
+    events, research, open-quests, interoperability-evidence, identity-policy, submission-contract). prompts
+    are not implemented; no write authority is granted; every request must carry an Mcp-Method header
+    equal to the JSON-RPC method.
   humanURL: https://machinerealms.com/network
   baseURL: https://machinerealms.com/mcp
   tags:
+  - MCP
+  - Agent-Native
+  - Research
+  tags_raw:
   - MCP
   - agent-native
   - Research
@@ -172,16 +152,22 @@ apis:
   image: https://machinerealms.com/brand/machine-realms-logo.webp
 - aid: machinerealms-com:a2a-agent
   name: Machine Realms A2A Agent
-  description: 'Agent2Agent 1.0 surface: an agent card at https://machinerealms.com/.well-known/agent-card.json
-    (version network-alpha-2) declaring two interfaces — JSON-RPC at https://machinerealms.com/a2a and HTTP+JSON
-    at /a2a/v1 — and twelve read-only skills: network registry, realm evidence, machine-readable offers, authority
-    boundary, intent match, capability vocabulary, agent counterparty contract, machine-native experience research,
-    research data exchange, research intelligence, Research Commons and bounded research quests. The JSON-RPC endpoint
-    answers tasks/get with A2A error -32001 task_not_found for an unknown id; streaming, push notifications and
-    the extended card are declared unsupported; the card grants no write authority.'
+  description: >-
+    Agent2Agent 1.0 surface: an agent card at https://machinerealms.com/.well-known/agent-card.json (version
+    network-alpha-2) declaring two interfaces — JSON-RPC at https://machinerealms.com/a2a and HTTP+JSON
+    at /a2a/v1 — and twelve read-only skills: network registry, realm evidence, machine-readable offers,
+    authority boundary, intent match, capability vocabulary, agent counterparty contract, machine-native
+    experience research, research data exchange, research intelligence, Research Commons and bounded research
+    quests. The JSON-RPC endpoint answers tasks/get with A2A error -32001 task_not_found for an unknown
+    id; streaming, push notifications and the extended card are declared unsupported; the card grants
+    no write authority.
   humanURL: https://machinerealms.com/network
   baseURL: https://machinerealms.com/a2a
   tags:
+  - A2A
+  - Agent-Native
+  - Agent Discovery
+  tags_raw:
   - A2A
   - agent-native
   - Agent Discovery
@@ -192,12 +178,30 @@ apis:
     name: A2A Agent Card (provider-hosted)
     url: https://machinerealms.com/.well-known/agent-card.json
   image: https://machinerealms.com/brand/machine-realms-logo.webp
+- aid: machinerealms-com:machinerealms-com-commons-api
+  name: Machine Realms Commons API
+  description: The Commons API from Machine Realms — 21 operation(s) for commons.
+  humanURL: https://machinerealms.com/community/guide
+  baseURL: https://machinerealms.com/api/v1
+  tags:
+  - Commons
+  properties:
+  - type: OpenAPI
+    url: openapi/machinerealms-com-commons-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/machinerealms-com-research-commons.schema.json
+  - type: Documentation
+    url: https://machinerealms.com/community/guide
+  - type: APIReference
+    url: https://machinerealms.com/.well-known/research-commons.json
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/machinerealms-com-research-commons-overlay.yaml
 - type: Website
   url: https://machinerealms.com/
 - type: Documentation
@@ -249,3 +253,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 44
   pass: local-v3
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://machinerealms.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "1.0"
+  control: 404
