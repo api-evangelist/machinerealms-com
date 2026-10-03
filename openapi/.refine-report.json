@@ -1,17 +1,16 @@
 {
   "provider": "machinerealms-com",
   "sources": [
-    "machinerealms-com-research-commons-openapi.json"
+    "_original/machinerealms-com-research-commons-openapi.json"
   ],
   "outputs": [
     "machinerealms-com-commons-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/machinerealms-com-research-commons-openapi.json"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "machinerealms-com-research-commons-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/participants -> Commons",
     "machinerealms-com-research-commons-openapi.json: tagged paths GET /api/v1/commons/participants -> Commons",
@@ -41,7 +40,9 @@
     "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/credentials/rotate -> Commons",
     "machinerealms-com-research-commons-openapi.json: tagged paths POST /api/v1/commons/credentials/revoke -> Commons",
     "machinerealms-com-research-commons-openapi.json: declared missing tag: Commons",
-    "apis.yml register: written (+1 apis, 4 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "machinerealms-com-commons-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
