@@ -1,0 +1,12 @@
+{
+ "url": "https://machinerealms.com/schemas/research-commons-openapi.json",
+ "requested_url": "https://machinerealms.com/schemas/research-commons-openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 32533,
+ "sha256": "95d8d9f01e486b12de8f05031262e251c4ef73031e84697d12b9fed98bacd749",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
