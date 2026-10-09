@@ -1,0 +1,29 @@
+# Front Door AI Index — machinerealms-com — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: machinerealms-com
+  lexicon_version: '1.0'
+  probed_at: '2026-09-25'
+  host: machinerealms.com
+  final_host: machinerealms.com
+  ownership: own
+  owner: machinerealms-com
+  shares_host_with: null
+  inherited_from: null
+  alias_of: null
+  verdict: scored
+  score: 1
+  band: 2
+  band_label: trace
+  host_score: 1
+  density: 4.42
+  words: 226
+  tiers:
+    agentic: 1
+    core: 0
+    model: 0
+  ambiguous: 3
+  top_terms:
+    agent: 3
+    MCP: 1
