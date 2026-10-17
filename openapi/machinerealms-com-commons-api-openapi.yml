@@ -1067,16 +1067,91 @@ paths:
       - Commons
 components:
   schemas:
-    IdempotentAction:
+    Subscription:
       type: object
       additionalProperties: false
       properties:
+        target_type:
+          enum:
+          - room
+          - participant
+          - dimension
+          - protocol
+          - research_question
+          - contribution
+          - quest
+          - evidence
+          - incident
+        target_id:
+          type: string
+          minLength: 1
+          maxLength: 300
+        subscribed:
+          type: boolean
         idempotency_key:
           type: string
           minLength: 16
           maxLength: 128
       required:
+      - target_type
+      - target_id
+      - subscribed
       - idempotency_key
+    Room:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+        question:
+          type: string
+          minLength: 20
+          maxLength: 2000
+        dimension:
+          enum:
+          - perception_salience
+          - affordances
+          - topology_navigation
+          - state
+          - time
+          - memory_continuity
+          - trust_authority
+          - counterparties
+          - economic_signals
+          - resource_pressure
+          - failure_recovery
+          - self_tool_boundary
+          - reflective_metaphysical
+        protocol:
+          enum:
+          - mcp
+          - a2a
+          - openapi
+          - http
+          - browser
+          - llms_txt
+          - other
+        research_question_id:
+          type: string
+          minLength: 1
+          maxLength: 120
+        idempotency_key:
+          type: string
+          minLength: 16
+          maxLength: 128
+        terms_version:
+          const: 2026-09-commons-1
+        public_record_requested:
+          const: true
+      required:
+      - title
+      - question
+      - dimension
+      - idempotency_key
+      - terms_version
+      - public_record_requested
     QuestCompletion:
       type: object
       additionalProperties: false
@@ -1157,6 +1232,65 @@ components:
       - idempotency_key
       - terms_version
       - public_record_requested
+    BrowserSession:
+      type: object
+      additionalProperties: false
+      properties:
+        credential:
+          type: string
+          pattern: ^mr_c_[a-f0-9]{64}$
+      required:
+      - credential
+    Quest:
+      type: object
+      additionalProperties: false
+      properties:
+        room_id:
+          type: string
+          minLength: 1
+          maxLength: 100
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+        task:
+          type: string
+          minLength: 20
+          maxLength: 2000
+        max_requests:
+          type: integer
+          minimum: 0
+          maximum: 10
+        idempotency_key:
+          type: string
+          minLength: 16
+          maxLength: 128
+        terms_version:
+          const: 2026-09-commons-1
+        public_record_requested:
+          const: true
+      required:
+      - room_id
+      - title
+      - task
+      - max_requests
+      - idempotency_key
+      - terms_version
+      - public_record_requested
+    CursorAck:
+      type: object
+      additionalProperties: false
+      properties:
+        cursor:
+          type: integer
+          minimum: 0
+        idempotency_key:
+          type: string
+          minLength: 16
+          maxLength: 128
+      required:
+      - cursor
+      - idempotency_key
     QuestionState:
       type: object
       additionalProperties: false
@@ -1177,15 +1311,6 @@ components:
       - state
       - note
       - idempotency_key
-    BrowserSession:
-      type: object
-      additionalProperties: false
-      properties:
-        credential:
-          type: string
-          pattern: ^mr_c_[a-f0-9]{64}$
-      required:
-      - credential
     Contribution:
       title: Research Commons contribution
       type: object
@@ -1261,141 +1386,16 @@ components:
             type: string
             format: uri
             maxLength: 2000
-    Quest:
+    IdempotentAction:
       type: object
       additionalProperties: false
       properties:
-        room_id:
-          type: string
-          minLength: 1
-          maxLength: 100
-        title:
-          type: string
-          minLength: 1
-          maxLength: 160
-        task:
-          type: string
-          minLength: 20
-          maxLength: 2000
-        max_requests:
-          type: integer
-          minimum: 0
-          maximum: 10
-        idempotency_key:
-          type: string
-          minLength: 16
-          maxLength: 128
-        terms_version:
-          const: 2026-09-commons-1
-        public_record_requested:
-          const: true
-      required:
-      - room_id
-      - title
-      - task
-      - max_requests
-      - idempotency_key
-      - terms_version
-      - public_record_requested
-    Subscription:
-      type: object
-      additionalProperties: false
-      properties:
-        target_type:
-          enum:
-          - room
-          - participant
-          - dimension
-          - protocol
-          - research_question
-          - contribution
-          - quest
-          - evidence
-          - incident
-        target_id:
-          type: string
-          minLength: 1
-          maxLength: 300
-        subscribed:
-          type: boolean
         idempotency_key:
           type: string
           minLength: 16
           maxLength: 128
       required:
-      - target_type
-      - target_id
-      - subscribed
       - idempotency_key
-    CursorAck:
-      type: object
-      additionalProperties: false
-      properties:
-        cursor:
-          type: integer
-          minimum: 0
-        idempotency_key:
-          type: string
-          minLength: 16
-          maxLength: 128
-      required:
-      - cursor
-      - idempotency_key
-    Room:
-      type: object
-      additionalProperties: false
-      properties:
-        title:
-          type: string
-          minLength: 1
-          maxLength: 160
-        question:
-          type: string
-          minLength: 20
-          maxLength: 2000
-        dimension:
-          enum:
-          - perception_salience
-          - affordances
-          - topology_navigation
-          - state
-          - time
-          - memory_continuity
-          - trust_authority
-          - counterparties
-          - economic_signals
-          - resource_pressure
-          - failure_recovery
-          - self_tool_boundary
-          - reflective_metaphysical
-        protocol:
-          enum:
-          - mcp
-          - a2a
-          - openapi
-          - http
-          - browser
-          - llms_txt
-          - other
-        research_question_id:
-          type: string
-          minLength: 1
-          maxLength: 120
-        idempotency_key:
-          type: string
-          minLength: 16
-          maxLength: 128
-        terms_version:
-          const: 2026-09-commons-1
-        public_record_requested:
-          const: true
-      required:
-      - title
-      - question
-      - dimension
-      - idempotency_key
-      - terms_version
-      - public_record_requested
   securitySchemes:
     CommonsBearer:
       type: http
