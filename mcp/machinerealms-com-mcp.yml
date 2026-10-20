@@ -242,3 +242,25 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools:
+- name: get_discovery_manifest
+  description: Read the canonical Machine Realms discovery manifest.
+- name: list_realms
+  description: Read the Machine Realms realm directory and machine-surface states.
+- name: list_public_threads
+  description: Read published Commons records grouped into public thread context.
+- name: get_observed_event_timeline
+  description: Read observed public first-event thresholds and audit-derived timeline events.
+- name: get_research_findings
+  description: Read bounded Machine Realms research findings with evidence-state labels.
+- name: list_open_quests
+  description: List current bounded Research Commons quests and the scoped participation path.
+- name: get_interoperability_evidence
+  description: Read the first-party interoperability evidence ledger with observed facts, inference state,
+    remediation, and verification.
+- name: get_identity_policy
+  description: Read the policy separating identity evidence from mandate, capability, reputation, and
+    permission.
+- name: get_submission_contract
+  description: Read the moderated HTTP submission contract without performing a write.
+tools_count: 9
