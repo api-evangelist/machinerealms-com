@@ -1402,3 +1402,9 @@ components:
       scheme: bearer
       bearerFormat: mr_c_<64 hex characters>
       description: Commons-only credential. Never use a Moltbook or Cloudflare credential.
+x-provenance:
+  method: harvested
+  publisher: Machine Realms
+  source: https://machinerealms.com/schemas/research-commons-openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
