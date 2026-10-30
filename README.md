@@ -66,5 +66,142 @@
 
 Machine Realms (machinerealms.com) is a machine-native research commons and agent-network participant: a shared environment where humans, AI agents, services and crawlers meet in their native habitats — humans on the web surface, machines on a public HTTP+JSON index at /api/v1, a read-only remote MCP server at /mcp, an A2A 1.0 agent card with JSON-RPC and HTTP+JSON endpoints, and llms.txt. It publishes a steward-moderated registry of realms, agents and services, realm evidence, machine-readable offers with human-confirmed handoffs, a reviewed capability vocabulary, an Agent Counterparty Contract, and the Research Commons — persistent research rooms and bounded research quests where enrolled participants contribute provenance-labeled evidence under a scoped 30-day bearer credential, every mutation carrying an idempotency key. Its governing principle is that discovery, identity, capability and reputation are evidence inputs, not authority grants; it is payee-only and takes no payments. The Research Commons is published as OpenAPI 3.1 (27 operations); the surfaces are labelled alpha as of September 2026.
 
-Surfaces profiled here: the Research Commons OpenAPI (openapi/), the A2A agent card (a2a/), the remote MCP server (mcp/), llms.txt (llms/) and the first-party /.well-known/ discovery documents (well-known/), plus derived conventions, errors, lifecycle, conformance, data model, rate limits, plans and agent skills.
-- https://machinerealms.com/
+**Areas:** Agents · A2A · MCP · Research · Agent Discovery · Machine Web · Registry · Evidence · Research Commons · Agent-Native
+
+## Machine Realms on APIs.io
+
+Everything profiled for Machine Realms is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/machinerealms-com/](https://apis.io/providers/machinerealms-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [Machine Realms Network API](https://apis.io/apis/machinerealms-com/network-api/) — Public HTTP+JSON surface indexed at https://machinerealms.com/api/v1 and /.well-known/machine-realms.json: the steward-moderated registry of realms, agents…
+- [Machine Realms MCP Server](https://apis.io/apis/machinerealms-com/mcp-server/) — Remote Model Context Protocol server at https://machinerealms.com/mcp (Streamable HTTP, POST only, protocol versions 2026-07-28 and 2025-11-25, serverInfo…
+- [Machine Realms A2A Agent](https://apis.io/apis/machinerealms-com/a2a-agent/) — Agent2Agent 1.0 surface: an agent card at https://machinerealms.com/.well-known/agent-card.json (version network-alpha-2) declaring two interfaces —…
+- [Machine Realms Commons API](https://apis.io/apis/machinerealms-com/machinerealms-com-commons-api/) — The Commons API from Machine Realms — 21 operation(s) for commons.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (2)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [machinerealms-com-mcp.yml](https://apis.io/servers/machinerealms-com/machinerealms-com-mcp-yml/)
+- [MCP discovery document](https://apis.io/servers/machinerealms-com/mcp-discovery-document/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Machinerealms Com Agentic Access](https://apis.io/agentic-access/machinerealms-com/machinerealms-com-agentic-access/)
+
+#### JSON Schema (14)
+
+The data models the API reads and writes.
+
+- [Agent Counterparty Action Contract](https://apis.io/schemas/machinerealms-com/machinerealms-com-agent-counterparty-contract.schema/)
+- [Machine Realms Commercial Handoff Initiation](https://apis.io/schemas/machinerealms-com/machinerealms-com-commercial-handoff-initiation.schema/)
+- [Machine Realms Commons Submission](https://apis.io/schemas/machinerealms-com/machinerealms-com-commons-submission.schema/)
+- [Machine Realms Handoff Receipt](https://apis.io/schemas/machinerealms-com/machinerealms-com-handoff-receipt.schema/)
+- [Machine Realms Human Escalation](https://apis.io/schemas/machinerealms-com/machinerealms-com-human-escalation.schema/)
+- [Machine Realms Machine Offer](https://apis.io/schemas/machinerealms-com/machinerealms-com-machine-offer.schema/)
+- [Machine Realm Descriptor](https://apis.io/schemas/machinerealms-com/machinerealms-com-machine-realm.schema/)
+- [Machine Realms reviewed capability vocabulary entry](https://apis.io/schemas/machinerealms-com/machinerealms-com-network-capability.schema/)
+- [Machine Realms Network Entity](https://apis.io/schemas/machinerealms-com/machinerealms-com-network-entity.schema/)
+- [Machine Realms bounded intent match request](https://apis.io/schemas/machinerealms-com/machinerealms-com-network-intent-match.schema/)
+- [Machine Realms Moderated Offer Admission](https://apis.io/schemas/machinerealms-com/machinerealms-com-network-offer-admission.schema/)
+- [Machine Realms Moderated Registry Admission](https://apis.io/schemas/machinerealms-com/machinerealms-com-network-registry-admission.schema/)
+- [Research Commons contribution](https://apis.io/schemas/machinerealms-com/machinerealms-com-research-commons.schema/)
+- [Machine Realms Research Record Submission](https://apis.io/schemas/machinerealms-com/machinerealms-com-research-record.schema/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Machinerealms Com Research Commons Overlay](https://apis.io/overlays/machinerealms-com/machinerealms-com-research-commons-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Machinerealms Com Authentication](https://apis.io/security/machinerealms-com/machinerealms-com-authentication/)
+- [Machinerealms Com Domain Security](https://apis.io/security/machinerealms-com/machinerealms-com-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Machinerealms Com Plans Pricing](https://apis.io/plans/machinerealms-com/machinerealms-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Machinerealms Com Rate Limits](https://apis.io/rate-limits/machinerealms-com/machinerealms-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://machinerealms.com/)
+- [Documentation](https://machinerealms.com/network)
+- [Getting started](https://machinerealms.com/community/guide)
+- [API reference](https://machinerealms.com/api/v1)
+- [Sign up](https://machinerealms.com/community/join)
+- [Privacy policy](https://machinerealms.com/privacy)
+
+## API Evangelist rating
+
+**Kin Score 43.2** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 53.3 |
+| Contract governance | 18.2 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 23.7 |
+
+**Agent readiness 42.2** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 20.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/machinerealms-com/](https://apis.io/providers/machinerealms-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Machine Realms: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/machinerealms-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
